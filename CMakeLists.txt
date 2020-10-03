@@ -21,6 +21,13 @@ if (Threads_FOUND)
    set(PROJECT_LINK_LIBRARIES ${PROJECT_LINK_LIBRARIES} Threads::Threads)
 endif()
 
+set(CURSES_NEED_NCURSES TRUE)
+find_package(Curses)
+if (Curses_FOUND)
+   set(PROJECT_INCLUDE_DIR ${PROJECT_INCLUDE_DIR} ${CURSES_INCLUDE_DIRS})
+   set(PROJECT_LINK_LIBRARIES ${PROJECT_LINK_LIBRARIES} ${CURSES_LIBRARIES})
+endif()
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wextra -Wpedantic -Wall -O0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")
 

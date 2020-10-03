@@ -1,7 +1,7 @@
 #!/bin/bash
-rm -rf build/ bin/
-mkdir -p build/
-cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-cp ./build/compile_commands.json .
-rm -rf build/ bin/
-cmake -B build
+rm -rf builddir/ bin/
+mkdir -p builddir/
+cmake -B builddir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cp ./builddir/compile_commands.json .
+rm -rf builddir/ bin/
+cmake -B builddir
