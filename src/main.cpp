@@ -1,7 +1,14 @@
 #include <iostream>
+#include <boost/asio.hpp>
+#include <ncurses.h>
 
 int main(int argc, char* argv[])
 {
-   std::cout << "Hello World!" << std::endl;
+   initscr();
+   noecho();
+   printw("Hello World!");
+   refresh();
+   getch();
+   endwin();
    return 0;
 }
