@@ -2,10 +2,11 @@ add_executable(main main.cpp)
 target_include_directories(main PUBLIC ${PROJECT_INCLUDE_DIR})
 target_link_libraries(main ${PROJECT_LINK_LIBRARIES})
 
-add_custom_target(mex_function ALL
+set(OCTARGS -mex -DMATLAB_MEX_FILE)
+add_custom_target(mexmain ALL
    COMMAND
-      mkoctfile -mex ${PROJECT_SOURCE_DIR}/src/mex_function.c
+      mkoctfile ${PROJECT_SOURCE_DIR}/src/mexmain.cc
    COMMAND
-      mv mex_function.mex ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+      mv mexmain.oct ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
    VERBATIM
 )
