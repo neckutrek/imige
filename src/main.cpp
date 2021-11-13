@@ -10,7 +10,7 @@ using namespace std;
 using Eigen::MatrixXd;
 
 #include "ppm_format.h"
-#include "image.h"
+#include "image.hpp"
 #include "image_filters.h"
 
 struct ProgramOptions

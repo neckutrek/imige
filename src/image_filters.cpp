@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-#include "image.h"
+#include "image.hpp"
 #include "image_filters.h"
 
 template <typename T>

@@ -50,6 +50,12 @@ Element<T> operator/(const Element<T>& p1, T t)
 }
 
 template <typename T>
+bool operator==(const Element<T>& p1, const Element<T>& p2)
+{
+   return p1.r == p2.r && p1.g == p2.g && p1.b == p2.b;
+}
+
+template <typename T>
 Element<T> operator*(const Element<T>& p1, double d)
 {
    auto t = [d](T t) -> T {

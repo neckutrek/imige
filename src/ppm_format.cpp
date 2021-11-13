@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace std;
 
-#include "image.h"
+#include "image.hpp"
 
 Image2uc loadPpmImage(string filename)
 {

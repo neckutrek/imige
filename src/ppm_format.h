@@ -1,7 +1,7 @@
 #ifndef __PPM_FORMAT_H__
 #define __PPM_FORMAT_H__
 
-#include "image.h"
+#include "image.hpp"
 
 #include <string>
 using std::string;
