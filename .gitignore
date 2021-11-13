@@ -4,6 +4,9 @@
 
 .clang_complete
 
+*.ppm
+*.png
+
 **.swp
 
 # Prerequisites
