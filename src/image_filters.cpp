@@ -41,9 +41,9 @@ Image2uc applyBlackAndWhite(const Image2uc& image)
    size_t sizex = image[0].size();
 
    Image2uc result = createImage<unsigned char>(sizex, sizey);
-   for (int y=0; y<sizey; ++y)
+   for (size_t y=0; y<sizey; ++y)
    {
-      for (int x=0; x<sizex; ++x)
+      for (size_t x=0; x<sizex; ++x)
       {
          result[y][x] = getBlackWhiteColor<unsigned char>(image[y][x]);
       }
@@ -62,9 +62,9 @@ size_t sizey = image.size();
    size_t sizex = image[0].size();
 
    Image2uc result = createImage<unsigned char>(sizex, sizey);
-   for (int y = 0; y < sizey-1; ++y)
+   for (size_t y = 0; y < sizey-1; ++y)
    {
-      for (int x = 0; x < sizex-1; ++x)
+      for (size_t x = 0; x < sizex-1; ++x)
       {
          result[y][x] = getBinaryColor<unsigned char, unsigned char>(image[y][x]);
       }
@@ -86,9 +86,9 @@ Image2uc applyErrorDiffusionDithering(const Image2uc& image)
    Image2i error = createImage<int>(sizex+2, sizey+2);
    Image2d dbgimg = createImage<double>(sizex+2,sizey+2);
 
-   for (int y = 0; y < sizey; ++y)
+   for (size_t y = 0; y < sizey; ++y)
    {
-      for (int x = 0; x < sizex; ++x)
+      for (size_t x = 0; x < sizex; ++x)
       {
          /*
          for (int yy=0; yy<sizey; ++yy)

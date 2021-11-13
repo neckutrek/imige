@@ -18,7 +18,7 @@ Image<T> createImage(size_t sizex, size_t sizey)
 {
    Image<T> result;
    result.resize(sizey);
-   for (int i=0; i<sizey; ++i)
+   for (size_t i=0; i<sizey; ++i)
    {
       result[i].resize(sizex);
       PixelRgb<T> zero{0,0,0};
@@ -37,9 +37,9 @@ std::ostream& operator<<(std::ostream& os, const Image<T>& img)
    }
    size_t sizex = img[0].size();
 
-   for (int y=0; y<sizey; ++y)
+   for (size_t y=0; y<sizey; ++y)
    {
-      for (int x=0; x<sizex; ++x)
+      for (size_t x=0; x<sizex; ++x)
       {
          os << img[y][x] << "   ";
       }
