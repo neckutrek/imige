@@ -22,9 +22,9 @@ Image2uc loadPpmImage(string filename)
 
   Image2uc result = createImage<unsigned char>(sizex, sizey);
 
-  for (int y=0; y<sizey; ++y)
+  for (size_t y=0; y<sizey; ++y)
   {
-    for (int x=0; x<sizex; ++x)
+    for (size_t x=0; x<sizex; ++x)
     {
       char r,g,b;
       file.read(&r,1);
@@ -58,9 +58,9 @@ void writePpmImage(string filename, const Image2uc& image)
   file << sizex << " " << sizey << "\n";
   file << "255\n";
 
-  for (int y=0; y<sizey; ++y)
+  for (size_t y=0; y<sizey; ++y)
   {
-    for (int x=0; x<sizex; ++x)
+    for (size_t x=0; x<sizex; ++x)
     {
       char r = image[y][x].r;
       char g = image[y][x].g;
