@@ -1,11 +1,12 @@
 set(SOURCES
-   main.cpp
    image_filters.cpp
    ppm_format.cpp)
 
-add_executable(main ${SOURCES})
+add_library(image_filters ${SOURCES})
+
+add_executable(main main.cpp)
 target_include_directories(main PUBLIC ${PROJECT_INCLUDE_DIR})
-target_link_libraries(main ${PROJECT_LINK_LIBRARIES})
+target_link_libraries(main ${PROJECT_LINK_LIBRARIES} image_filters)
 
 set(OCTARGS -mex -DMATLAB_MEX_FILE)
 add_custom_target(mexmain ALL
@@ -15,3 +16,5 @@ add_custom_target(mexmain ALL
       mv mexmain.oct ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
    VERBATIM
 )
+
+add_subdirectory("./tests")
