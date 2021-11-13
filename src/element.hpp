@@ -1,17 +1,17 @@
-#ifndef __PIXEL_H__
-#define __PIXEL_H__
+#ifndef __ELEMENT_H__
+#define __ELEMENT_H__
 
 #include <iomanip>
 
 template <typename T>
-struct PixelRgb
+struct Element
 {
    T r,g,b;
 
    template<typename T2>
-   operator PixelRgb<T2>() const
+   operator Element<T2>() const
    {
-      return PixelRgb<T2>{
+      return Element<T2>{
          static_cast<T2>(this->r),
          static_cast<T2>(this->g),
          static_cast<T2>(this->b)
@@ -20,9 +20,9 @@ struct PixelRgb
 };
 
 template <typename T>
-PixelRgb<T> operator+(const PixelRgb<T>& p1, const PixelRgb<T>& p2)
+Element<T> operator+(const Element<T>& p1, const Element<T>& p2)
 {
-   return PixelRgb<T>{
+   return Element<T>{
       p1.r + p2.r,
       p1.g + p2.g,
       p1.b + p2.b
@@ -30,9 +30,9 @@ PixelRgb<T> operator+(const PixelRgb<T>& p1, const PixelRgb<T>& p2)
 }
 
 template <typename T>
-PixelRgb<T> operator-(const PixelRgb<T>& p1, const PixelRgb<T>& p2)
+Element<T> operator-(const Element<T>& p1, const Element<T>& p2)
 {
-   return PixelRgb<T>{
+   return Element<T>{
       p1.r - p2.r,
       p1.g - p2.g,
       p1.b - p2.b
@@ -40,9 +40,9 @@ PixelRgb<T> operator-(const PixelRgb<T>& p1, const PixelRgb<T>& p2)
 }
 
 template <typename T>
-PixelRgb<T> operator/(const PixelRgb<T>& p1, T t)
+Element<T> operator/(const Element<T>& p1, T t)
 {
-   return PixelRgb<T>{
+   return Element<T>{
       p1.r / t,
       p1.g / t,
       p1.b / t
@@ -50,13 +50,13 @@ PixelRgb<T> operator/(const PixelRgb<T>& p1, T t)
 }
 
 template <typename T>
-PixelRgb<T> operator*(const PixelRgb<T>& p1, double d)
+Element<T> operator*(const Element<T>& p1, double d)
 {
    auto t = [d](T t) -> T {
       return static_cast<T>( static_cast<double>(t) * d + 0.5 );
    };
 
-   return PixelRgb<T>{
+   return Element<T>{
       t(p1.r),
       t(p1.g),
       t(p1.b)
@@ -64,7 +64,7 @@ PixelRgb<T> operator*(const PixelRgb<T>& p1, double d)
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const PixelRgb<T>& pixel)
+std::ostream& operator<<(std::ostream& os, const Element<T>& pixel)
 {
    os << std::setw(3) << pixel.r << ","
       << std::setw(3) << pixel.g << ","

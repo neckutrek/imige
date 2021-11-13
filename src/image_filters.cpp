@@ -6,7 +6,7 @@ using namespace std;
 #include "image_filters.h"
 
 template <typename T>
-PixelRgb<T> getBlackWhiteColor(const PixelRgb<T>& pixel)
+Element<T> getBlackWhiteColor(const Element<T>& pixel)
 {
    int intensity = pixel.r + pixel.g + pixel.b;
    intensity = intensity / 3;
@@ -17,7 +17,7 @@ PixelRgb<T> getBlackWhiteColor(const PixelRgb<T>& pixel)
 }
 
 template <typename T, typename S>
-PixelRgb<T> getBinaryColor(const PixelRgb<T>& pixel)
+Element<T> getBinaryColor(const Element<T>& pixel)
 {
    auto transform = [](T t) -> T {
       int tt = int(static_cast<unsigned char>(t));
@@ -25,7 +25,7 @@ PixelRgb<T> getBinaryColor(const PixelRgb<T>& pixel)
       return (tt > max_val/2 ? (T)(max_val-1) : 0);
    };
 
-   PixelRgb<T> p{
+   Element<T> p{
       transform(pixel.r), transform(pixel.g), transform(pixel.b)
    };
    return p;
@@ -95,15 +95,15 @@ Image2uc applyErrorDiffusionDithering(const Image2uc& image)
          {
             for (int xx=0; xx<sizex; ++xx)
             {
-               dbgimg[yy][xx] = (PixelRgb<double>)(error[yy+1][xx+1]+(PixelRgb<int>)(image[yy][xx])) / 255.0;
+               dbgimg[yy][xx] = (Element<double>)(error[yy+1][xx+1]+(Element<int>)(image[yy][xx])) / 255.0;
             }
          }
 
          cout << dbgimg << endl << endl;
          */
 
-         result[y][x] = PixelRgb<unsigned char>( getBinaryColor<int, unsigned char>(PixelRgb<int>(image[y][x]) + error[y+1][x+1]) );
-         PixelRgb<int> err = PixelRgb<int>(image[y][x]) - PixelRgb<int>(result[y][x]) + error[y+1][x+1];
+         result[y][x] = Element<unsigned char>( getBinaryColor<int, unsigned char>(Element<int>(image[y][x]) + error[y+1][x+1]) );
+         Element<int> err = Element<int>(image[y][x]) - Element<int>(result[y][x]) + error[y+1][x+1];
 /*
          error[y+1][x+2] = err *0.5;
          error[y+2][x+1] = err *0.5;

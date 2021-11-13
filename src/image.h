@@ -5,10 +5,10 @@
 #include <algorithm>
 #include <ostream>
 
-#include "pixel.h"
+#include "element.hpp"
 
 template <typename T>
-using Image = std::vector<std::vector<PixelRgb<T>>>;
+using Image = std::vector<std::vector<Element<T>>>;
 using Image2uc = Image<unsigned char>;
 using Image2i = Image<int>;
 using Image2d = Image<double>;
@@ -21,7 +21,7 @@ Image<T> createImage(size_t sizex, size_t sizey)
    for (size_t i=0; i<sizey; ++i)
    {
       result[i].resize(sizex);
-      PixelRgb<T> zero{0,0,0};
+      Element<T> zero{0,0,0};
       fill(begin(result[i]), end(result[i]), zero);
    }
    return result;
