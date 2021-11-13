@@ -9,7 +9,7 @@ using namespace std;
 #include <Eigen/Dense>
 using Eigen::MatrixXd;
 
-#include "ppm_format.h"
+#include "fileformats.hpp"
 #include "image.hpp"
 #include "image_filters.h"
 
@@ -49,23 +49,50 @@ ProgramOptions parseProgramOptions(int argc, char* argv[])
    return result;
 }
 
+template <typename T>
+Image<T> loadImage(const std::string& filename)
+{
+   ifstream file;
+   file.open(filename);
+   if (file.is_open())
+   {
+      auto result = readStream<T, ImageStreamType::PPM>(file);
+      file.close();
+      return result;
+   }
+   file.close();
+   return createImage<T>(0,0);
+}
+
+template <typename T>
+void writeImage(const Image<T>& image, const std::string& filename)
+{
+   ofstream file;
+   file.open(filename);
+   if (file.is_open())
+   {
+      writeStream<T, ImageStreamType::PPM>(image, file);
+   }
+   file.close();
+}
+
 int main(int argc, char* argv[])
 {
    ProgramOptions po = parseProgramOptions(argc, argv);
    string filename = po.image_filename;
    string filename_prefix = filename.substr(0, filename.find_first_of('.'));
 
-   Image2uc img = loadPpmImage("../" + filename_prefix + ".ppm");
-   writePpmImage("../" + filename_prefix + "_identity.ppm", img);
+   Image2uc img = loadImage<unsigned char>("../" + filename_prefix + ".ppm");
+   writeImage(img, "../" + filename_prefix + "_identity.ppm");
 
    Image2uc bw = applyBlackAndWhite(img);
-   writePpmImage("../" + filename_prefix + "_bw.ppm", bw);
+   writeImage(bw, "../" + filename_prefix + "_bw.ppm");
 
    Image2uc bin = applyBinaryColor(bw);
-   writePpmImage("../" + filename_prefix + "_bin.ppm", bin);
+   writeImage(bin, "../" + filename_prefix + "_bin.ppm");
 
    Image2uc res = applyErrorDiffusionDithering(bw);
-   writePpmImage("../" + filename_prefix + "_errordiffusion.ppm", res);
+   writeImage(res, "../" + filename_prefix + "_errordiffusion.ppm");
 
    cout << "done" << endl;
 

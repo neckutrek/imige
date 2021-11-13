@@ -1,6 +1,5 @@
 set(SOURCES
-   image_filters.cpp
-   ppm_format.cpp)
+   image_filters.cpp)
 
 add_library(image_filters ${SOURCES})
 
