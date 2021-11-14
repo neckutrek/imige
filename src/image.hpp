@@ -14,17 +14,28 @@ using Image2i = Image<int>;
 using Image2d = Image<double>;
 
 template <typename T>
-Image<T> createImage(size_t sizex, size_t sizey)
+Image<T> createImage(size_t sizex, size_t sizey, const Element<T>& el)
 {
    Image<T> result;
    result.resize(sizey);
    for (size_t i=0; i<sizey; ++i)
    {
       result[i].resize(sizex);
-      Element<T> zero{0,0,0};
-      fill(begin(result[i]), end(result[i]), zero);
+      fill(begin(result[i]), end(result[i]), el);
    }
    return result;
+}
+
+template <typename T>
+Image<T> createImage(size_t sizex, size_t sizey, Element<T>&& el)
+{
+   return createImage(sizex, sizey, el);
+}
+
+template <typename T>
+Image<T> createImage(size_t sizex, size_t sizey)
+{
+   return createImage(sizex, sizey, Element<T>{0,0,0});
 }
 
 template <typename T>

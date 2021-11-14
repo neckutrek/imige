@@ -2,26 +2,43 @@
 
 #include "image.hpp"
 
-TEST_CASE("fill image", "[image]")
+TEST_CASE("createImage", "[image]")
 {
    size_t sizey = 5;
    size_t sizex = 5;
 
-   Image2i iimg = createImage<int>(sizex, sizey);
-   for (size_t y=0; y<sizey; ++y)
    {
-      for (size_t x=0; x<sizex; ++x)
+      Image2i iimg = createImage<int>(sizex, sizey);
+      for (size_t y=0; y<sizey; ++y)
       {
-         REQUIRE(iimg[y][x] == Element<int>{0,0,0});
+         for (size_t x=0; x<sizex; ++x)
+         {
+            REQUIRE(iimg[y][x] == Element<int>{0,0,0});
+         }
       }
    }
 
-   Image2d dimg = createImage<double>(sizex, sizey);
-   for (size_t y=0; y<sizey; ++y)
    {
-      for (size_t x=0; x<sizex; ++x)
+      Element<int> el{1,2,3};
+      Image2i iimg = createImage<int>(sizex, sizey, el);
+      for (size_t y=0; y<sizey; ++y)
       {
-         REQUIRE(dimg[y][x] == Element<double>{.0,.0,.0});
+         for (size_t x=0; x<sizex; ++x)
+         {
+            REQUIRE(iimg[y][x] == el);
+         }
+      }
+   }
+
+   {
+      Element<double> el{1.,2.,3.};
+      Image2d dimg = createImage<double>(sizex, sizey, el);
+      for (size_t y=0; y<sizey; ++y)
+      {
+         for (size_t x=0; x<sizex; ++x)
+         {
+            REQUIRE(dimg[y][x] == el);
+         }
       }
    }
 }
