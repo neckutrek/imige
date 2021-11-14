@@ -51,26 +51,36 @@ TEST_CASE("portable pixel map", "[fileformats][ppm-format]")
       }
    }
 
-   SECTION("all the rest", "")
+   SECTION("writeStream", "")
    {
       auto image = getImage(ppmfile);
 
-      stringstream ss2;
-      writeStream<unsigned char, ImageStreamType::PPM>(image, ss2);
-      string str2 = ss2.str();
+      stringstream ss;
+      writeStream<unsigned char, ImageStreamType::PPM>(image, ss);
+      string str = ss.str();
 
-      stringstream ss3{str2};
-      auto image2 = readStream<unsigned char, ImageStreamType::PPM>(ss3);
+      stringstream ss2{str};
+      string line;
 
-      REQUIRE( image.size() == image2.size() );
-      REQUIRE( image[0].size() == image2[0].size() );
+      getline(ss2, line);
+      REQUIRE(line.compare("P6") == 0);
 
-      for (size_t y=0; y<sizey; ++y)
+      getline(ss2, line); // comment line
+
+      size_t x,y;
+      ss2 >> x >> y;
+      REQUIRE(x==sizex);
+      REQUIRE(y==sizey);
+
+      size_t bitdepth;
+      ss2 >> bitdepth;
+      REQUIRE(bitdepth == 255);
+
+      for (int i=0; i<sizex*sizey; ++i)
       {
-         for (size_t x=0; x<sizex; ++x)
-         {
-            REQUIRE_MESSAGE(image[y][x] == image2[y][x], "Images differ at (" + to_string(x) + "," + to_string(y) + ")");
-         }
+         unsigned char c;
+         ss2 >> c;
+         REQUIRE( c == element );
       }
    }
 }
