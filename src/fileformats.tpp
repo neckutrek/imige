@@ -15,6 +15,9 @@ Image<T> readStream(std::basic_istream<CharT>& is)
    size_t bitdepth = 0;
    is >> bitdepth;
 
+   char nl;
+   is.read(&nl,1); // read newline character
+
    auto result = createImage<T>(sizex, sizey);
 
    for (size_t y=0; y<sizey; ++y)
