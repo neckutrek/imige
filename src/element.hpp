@@ -72,9 +72,7 @@ Element<T> operator*(const Element<T>& p1, double d)
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Element<T>& pixel)
 {
-   os << std::setw(3) << pixel.r << ","
-      << std::setw(3) << pixel.g << ","
-      << std::setw(3) << pixel.b;
+   os << pixel.r << "," << pixel.g << "," << pixel.b;
    return os;
 }
 
