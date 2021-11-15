@@ -9,6 +9,28 @@
 #include <iomanip>
 using namespace std;
 
+template <typename T, typename Function>
+Image<T> transform(const Image<T>& image, Function function)
+{
+   size_t sizey = image.size();
+   if (sizey == 0)
+   {
+      return image;
+   }
+   size_t sizex = image[0].size();
+
+   auto result = createImage<T>(sizex, sizey);
+   for (size_t y = 0; y < sizey; ++y)
+   {
+      for (size_t x = 0; x < sizex; ++x)
+      {
+         result[y][x] = function(image[y][x]);
+      }
+   }
+
+   return result;
+}
+
 template <typename T>
 Image<T> dither(const Image<T>& image, const Palette<T>& palette)
 {

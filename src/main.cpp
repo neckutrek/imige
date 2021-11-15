@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <type_traits>
 using namespace std;
 
 #include <boost/program_options.hpp>
@@ -75,6 +76,27 @@ void writeImage(const Image<T>& image, const std::string& filename)
    file.close();
 }
 
+template <typename T>
+Element<T> toMono(const Element<T>& el)
+{
+   const Palette<T> palette = [](){
+      if constexpr(std::is_floating_point_v<T> || std::is_same_v<T, bool>)
+      {
+         return Palette<T>{ {0,0,0}, {1,1,1} };
+      }
+      else if constexpr(std::is_arithmetic_v<T>)
+      {
+         return Palette<T>{ {0,0,0}, {0xff, 0xff, 0xff} };
+      }
+      else
+      {
+         return Palette<T>{{0,0,0}};
+      }
+   }();
+
+   return getNearestNeighbour(el, palette);
+}
+
 int main(int argc, char* argv[])
 {
    ProgramOptions po = parseProgramOptions(argc, argv);
@@ -87,15 +109,17 @@ int main(int argc, char* argv[])
    Image2uc bw = applyBlackAndWhite(img);
    writeImage(bw, "../" + filename_prefix + "_bw.ppm");
 
-   Image2uc bin = applyBinaryColor(bw);
+   Image2uc bin = transform(img, &toMono<unsigned char>);
    writeImage(bin, "../" + filename_prefix + "_bin.ppm");
 
-   Palette<unsigned char> palette{
-      {0,0,0},
-      {0x80, 0x80, 0x80},
-      {0xff, 0xff, 0xff} };
-   auto res = dither(bw, palette);
-   writeImage(res, "../" + filename_prefix + "_errordiffusion.ppm");
+   {
+      Palette<unsigned char> palette{
+         {0,0,0},
+         {0x80, 0x80, 0x80},
+         {0xff, 0xff, 0xff} };
+      auto res = dither(bw, palette);
+      writeImage(res, "../" + filename_prefix + "_errordiffusion.ppm");
+   }
 
    cout << "done" << endl;
 

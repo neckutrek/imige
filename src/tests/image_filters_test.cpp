@@ -6,6 +6,28 @@
 #include <iostream>
 #include <string>
 
+TEST_CASE("transform", "[image_filters]")
+{
+   size_t sizey = 30;
+   size_t sizex = 40;
+
+   {
+      auto image = createImage<double>(sizex, sizey, Element<double>{0,0,0});
+      Element<double> el{2,3,4};
+      auto fun = [&el](const Element<double>& el2){
+         return el;
+      };
+      auto result = transform(image, fun);
+      for (size_t y=0; y<sizey; ++y)
+      {
+         for (size_t x=0; x<sizex; ++x)
+         {
+            REQUIRE( result[y][x] == el );
+         }
+      }
+   }
+}
+
 TEST_CASE("dither", "[image_filters]")
 {
    size_t sizey = 30;
