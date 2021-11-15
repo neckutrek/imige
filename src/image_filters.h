@@ -3,7 +3,6 @@
 
 #include "image.hpp"
 
-Image2uc applyErrorDiffusionDithering(const Image2uc& image);
 Image2uc applyBinaryColor(const Image2uc& image);
 Image2uc applyBlackAndWhite(const Image2uc& image);
 

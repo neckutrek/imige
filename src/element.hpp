@@ -1,7 +1,7 @@
 #ifndef __ELEMENT_H__
 #define __ELEMENT_H__
 
-#include <iomanip>
+#include <cmath>
 
 template <typename T>
 struct Element
@@ -27,6 +27,12 @@ Element<T> operator+(const Element<T>& p1, const Element<T>& p2)
       p1.g + p2.g,
       p1.b + p2.b
    };
+}
+
+template <typename T>
+void operator+=(Element<T>& p1, const Element<T>& p2)
+{
+   p1 = p1 + p2;
 }
 
 template <typename T>
@@ -59,7 +65,15 @@ template <typename T>
 Element<T> operator*(const Element<T>& p1, double d)
 {
    auto t = [d](T t) -> T {
-      return static_cast<T>( static_cast<double>(t) * d + 0.5 );
+      double a = static_cast<double>(t) * d;
+      if constexpr(std::is_floating_point_v<T>)
+      {
+         return static_cast<T>( a );
+      }
+      else
+      {
+         return static_cast<T>( std::round(a) );
+      }
    };
 
    return Element<T>{

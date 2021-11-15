@@ -6,12 +6,11 @@ using namespace std;
 
 #include <boost/program_options.hpp>
 
-#include <Eigen/Dense>
-using Eigen::MatrixXd;
-
 #include "fileformats.hpp"
+#include "palette.hpp"
 #include "image.hpp"
 #include "image_filters.h"
+#include "image_filters.hpp"
 
 struct ProgramOptions
 {
@@ -91,7 +90,11 @@ int main(int argc, char* argv[])
    Image2uc bin = applyBinaryColor(bw);
    writeImage(bin, "../" + filename_prefix + "_bin.ppm");
 
-   Image2uc res = applyErrorDiffusionDithering(bw);
+   Palette<unsigned char> palette{
+      {0,0,0},
+      {0x80, 0x80, 0x80},
+      {0xff, 0xff, 0xff} };
+   auto res = dither(bw, palette);
    writeImage(res, "../" + filename_prefix + "_errordiffusion.ppm");
 
    cout << "done" << endl;
