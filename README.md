@@ -1,2 +1,2 @@
-# cmake_base
-A CMake based base C++ project template for personal use
+# Imige
+A template header only image processing library

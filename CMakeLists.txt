@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(myproject)
+project(imige)
 
 set(CMAKE_EXECUTABLE_PATH ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_PATH ${CMAKE_SOURCE_DIR}/bin)
