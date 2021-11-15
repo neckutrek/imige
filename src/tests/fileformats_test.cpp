@@ -76,7 +76,7 @@ TEST_CASE("portable pixel map", "[fileformats][ppm-format]")
       ss2 >> bitdepth;
       REQUIRE(bitdepth == 255);
 
-      for (int i=0; i<sizex*sizey; ++i)
+      for (size_t i=0; i<sizex*sizey; ++i)
       {
          unsigned char c;
          ss2 >> c;
