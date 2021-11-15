@@ -23,19 +23,14 @@ Element<T> getBlackWhiteColor(const Element<T>& pixel)
 
 Image2uc applyBlackAndWhite(const Image2uc& image)
 {
-   size_t sizey = image.size();
-   if (sizey == 0)
-   {
-      return image;
-   }
-   size_t sizex = image[0].size();
+   auto [sizex, sizey] = image.size();
 
    Image2uc result = createImage<unsigned char>(sizex, sizey);
    for (size_t y=0; y<sizey; ++y)
    {
       for (size_t x=0; x<sizex; ++x)
       {
-         result[y][x] = getBlackWhiteColor<unsigned char>(image[y][x]);
+         result(x,y) = getBlackWhiteColor<unsigned char>(image(x,y));
       }
    }
 

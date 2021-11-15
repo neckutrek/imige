@@ -12,19 +12,14 @@ using namespace std;
 template <typename T, typename Function>
 Image<T> transform(const Image<T>& image, Function function)
 {
-   size_t sizey = image.size();
-   if (sizey == 0)
-   {
-      return image;
-   }
-   size_t sizex = image[0].size();
+   auto [sizex, sizey] = image.size();
 
    auto result = createImage<T>(sizex, sizey);
    for (size_t y = 0; y < sizey; ++y)
    {
       for (size_t x = 0; x < sizex; ++x)
       {
-         result[y][x] = function(image[y][x]);
+         result(x,y) = function(image(x,y));
       }
    }
 
@@ -34,19 +29,14 @@ Image<T> transform(const Image<T>& image, Function function)
 template <typename T>
 Image<T> dither(const Image<T>& image, const Palette<T>& palette)
 {
-   size_t sizey = image.size();
-   if (sizey == 0)
-   {
-      return image;
-   }
-   size_t sizex = image[0].size();
+   auto [sizex, sizey] = image.size();
 
    Image2d semiimage = createImage<double>(sizex, sizey);
    for (size_t y=0; y<sizey; ++y)
    {
       for (size_t x=0; x<sizex; ++x)
       {
-         semiimage[y][x] = Element<double>( image[y][x] );
+         semiimage(x,y) = Element<double>( image(x,y) );
       }
    }
 
@@ -66,13 +56,13 @@ Image<T> dither(const Image<T>& image, const Palette<T>& palette)
    {
       for (size_t x = 0; x < sizex; ++x)
       {
-         semiresult[y][x] = getNearestNeighbour( semiimage[y][x]+error[y+1][x+1], palette_d );
-         Element<double> err = semiimage[y][x] - semiresult[y][x];
+         semiresult(x,y) = getNearestNeighbour( semiimage(x,y)+error(x+1,y+1), palette_d );
+         Element<double> err = semiimage(x,y) - semiresult(x,y);
 
-         error[y+1][x+2] += err * (7.0/16.0);
-         error[y+2][x  ] += err * (1.0/16.0);
-         error[y+2][x+1] += err * (5.0/16.0);
-         error[y+2][x+2] += err * (3.0/16.0);
+         error(x+2,y+1) += err * (7.0/16.0);
+         error(x,y+2) += err * (1.0/16.0);
+         error(x+1,y+2) += err * (5.0/16.0);
+         error(x+2,y+2) += err * (3.0/16.0);
 
       }
    }
@@ -81,7 +71,7 @@ Image<T> dither(const Image<T>& image, const Palette<T>& palette)
    {
       for (size_t x=0; x<sizex; ++x)
       {
-         result[y][x] = Element<T>( semiresult[y][x] );
+         result(x,y) = Element<T>( semiresult(x,y) );
       }
    }
    return result;

@@ -13,7 +13,7 @@ TEST_CASE("createImage", "[image]")
       {
          for (size_t x=0; x<sizex; ++x)
          {
-            REQUIRE(iimg[y][x] == Element<int>{0,0,0});
+            REQUIRE(iimg(x,y) == Element<int>{0,0,0});
          }
       }
    }
@@ -25,7 +25,7 @@ TEST_CASE("createImage", "[image]")
       {
          for (size_t x=0; x<sizex; ++x)
          {
-            REQUIRE(iimg[y][x] == el);
+            REQUIRE(iimg(x,y) == el);
          }
       }
    }
@@ -37,7 +37,7 @@ TEST_CASE("createImage", "[image]")
       {
          for (size_t x=0; x<sizex; ++x)
          {
-            REQUIRE(dimg[y][x] == el);
+            REQUIRE(dimg(x,y) == el);
          }
       }
    }

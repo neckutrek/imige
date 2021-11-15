@@ -35,8 +35,9 @@ TEST_CASE("portable pixel map", "[fileformats][ppm-format]")
    {
       auto image = getImage(ppmfile);
 
-      REQUIRE( image.size() == sizey );
-      REQUIRE( image[0].size() == sizex );
+      auto [sx, sy] = image.size();
+      REQUIRE( sy == sizey );
+      REQUIRE( sx == sizex );
 
       for (size_t y=0; y<sizey; ++y)
       {
@@ -45,7 +46,7 @@ TEST_CASE("portable pixel map", "[fileformats][ppm-format]")
             unsigned char el = static_cast<unsigned char>(element);
             string errmsg = "readStream: invalid image element at (" +
                to_string(x) + "," + to_string(y) + ") ";
-            REQUIRE_MESSAGE( (image[y][x] == Element<unsigned char>{el, el, el}),
+            REQUIRE_MESSAGE( (image(x,y) == Element<unsigned char>{el, el, el}),
                errmsg.c_str());
          }
       }

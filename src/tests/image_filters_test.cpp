@@ -22,7 +22,7 @@ TEST_CASE("transform", "[image_filters]")
       {
          for (size_t x=0; x<sizex; ++x)
          {
-            REQUIRE( result[y][x] == el );
+            REQUIRE( result(x,y) == el );
          }
       }
    }
@@ -43,7 +43,7 @@ TEST_CASE("dither", "[image_filters]")
          {
             size_t pidx = ( (x%2 == y%2) ? 1 : 0);
             std::string errmsg = "dither uchar: invalid element at index (" + std::to_string(x) + "," + std::to_string(y) + ")";
-            REQUIRE_MESSAGE( result[y][x] == palette[pidx], errmsg);
+            REQUIRE_MESSAGE( result(x,y) == palette[pidx], errmsg);
          }
       }
    }
@@ -58,7 +58,7 @@ TEST_CASE("dither", "[image_filters]")
          {
             size_t pidx = ( (x%2 == y%2) ? 0 : 1);
             std::string errmsg = "dither double: invalid element at index (" + std::to_string(x) + "," + std::to_string(y) + ")";
-            REQUIRE_MESSAGE( result[y][x] == palette[pidx], errmsg);
+            REQUIRE_MESSAGE( result(x,y) == palette[pidx], errmsg);
          }
       }
    }

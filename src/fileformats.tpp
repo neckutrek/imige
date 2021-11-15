@@ -28,9 +28,9 @@ Image<T> readStream(std::basic_istream<CharT>& is)
          is.read(&r,1);
          is.read(&g,1);
          is.read(&b,1);
-         result[y][x].r = static_cast<T>(r);
-         result[y][x].g = static_cast<T>(g);
-         result[y][x].b = static_cast<T>(b);
+         result(x,y).r = static_cast<T>(r);
+         result(x,y).g = static_cast<T>(g);
+         result(x,y).b = static_cast<T>(b);
       }
    }
    return result;
@@ -41,12 +41,7 @@ void writeStream(const Image<T>& image, std::basic_ostream<CharT>& os)
 {
    static_assert(StreamType == ImageStreamType::PPM);
 
-   size_t sizey = image.size();
-   if (sizey == 0)
-   {
-      return;
-   }
-   size_t sizex = image[0].size();
+   auto [sizex, sizey] = image.size();
 
    os << "P6\n";
    os << "# written by neckutrek's super awesome program\n";
@@ -57,9 +52,9 @@ void writeStream(const Image<T>& image, std::basic_ostream<CharT>& os)
    {
       for (size_t x=0; x<sizex; ++x)
       {
-         char r = static_cast<char>(image[y][x].r);
-         char g = static_cast<char>(image[y][x].g);
-         char b = static_cast<char>(image[y][x].b);
+         char r = static_cast<char>(image(x,y).r);
+         char g = static_cast<char>(image(x,y).g);
+         char b = static_cast<char>(image(x,y).b);
          os.write(&r,1);
          os.write(&g,1);
          os.write(&b,1);
